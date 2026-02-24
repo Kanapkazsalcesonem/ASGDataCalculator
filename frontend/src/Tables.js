@@ -64,7 +64,7 @@ function Tables() {
                 
     return (
         <div>
-            <h2>Pogoda 7dni</h2>
+            <h2>Pogoda</h2>
 
             <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                 {Object.keys(cities).map((city) => (<option key={city} value={city}>{city}</option>))}
@@ -78,7 +78,7 @@ function Tables() {
                         <thead>
                             <tr>
                                 <th>Godzina</th>
-                                <th>Temp</th>
+                                <th>Temp (°C)</th>
                                 <th>Opady (mm)</th>
                                 <th>Wiatr (km/h)</th>
                                 <th>Kierunek</th>
@@ -103,6 +103,7 @@ function Tables() {
 
 
 export default Tables;
+
 
 
 
