@@ -90,7 +90,7 @@ function App() {
               </>
         )}
 
-        <Route path="*" element={<Tables />} />
+        <Route path="*" element={</>} />
       </Routes>
     </div>
   );
