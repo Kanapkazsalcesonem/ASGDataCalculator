@@ -23,6 +23,7 @@ const cities = {
 
 function Tables() {
     const [selectedCity, setSelectedCity] = useState("Warszawa");
+    const [selectedDate, setSelectedDate] = useState(null);
     const [weather, setWeather] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -30,10 +31,12 @@ function Tables() {
         const {lat,lon} = cities[cityName];
         setLoading(true);
         try {
-            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&timezone=Europe/Warsaw`);
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation,windspeed_10m,winddirection_10m&forecast_days=7&timezone=Europe/Warsaw`);
             if (!res.ok) throw new Error("Błąd pobierania danych pogody");
             const data = await res.json();
-            setWeather(data.daily);
+            setWeather(data.hourly);
+            const firstDate = data.hourly.time[0].split("T")[0];
+            setSelectedDate(firstDate);
         } catch (err) {
             console.error(err);
         }
@@ -45,6 +48,13 @@ function Tables() {
     }, [selectedCity, fetchData]);
 
     if (loading) return <p>Loading...</p>;
+    if (!weather) return null;
+
+    const availableDates = [... new Set(weather.time.map(t => t.split("T")[0]))];
+
+    const filteredIndexes = weather.time
+        .map((t, i) => t.startsWith(selectedDate) ? i : null)
+        .filter(i => i !== null);
 
     const getWindArrow = (degree) => { 
         const directions = ["⬆️", "↗️", "➡️", "↘️", "⬇️", "↙️", "⬅️", "↖️"];
@@ -59,28 +69,29 @@ function Tables() {
             <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                 {Object.keys(cities).map((city) => (<option key={city} value={city}>{city}</option>))}
             </select>
+            <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
+                {availableDates.map(date => (<option key={date} value={date}>{date}</option>))}
+            </select>
                 {loading && <p>Loading...</p>}
                 {weather && (
                     <table>
                         <thead>
                             <tr>
-                                <th>Data</th>
-                                <th>Temp Min</th>
-                                <th>Temp Max</th>
+                                <th>Godzina</th>
+                                <th>Temp</th>
                                 <th>Opady (mm)</th>
                                 <th>Wiatr (km/h)</th>
                                 <th>Kierunek</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {weather.time.map((date,index) => (
-                                <tr key={date}>
-                                    <td>{date}</td>
-                                    <td>{weather.temperature_2m_min[index]}</td>
-                                    <td>{weather.temperature_2m_max[index]}</td>
-                                    <td>{weather.precipitation_sum[index]}</td>
-                                    <td>{weather.windspeed_10m_max[index]}</td>
-                                    <td>{getWindArrow(weather.winddirection_10m_dominant[index])}{" "}({weather.winddirection_10m_dominant[index]})</td>
+                            {filteredIndexes.map(index => (
+                                <tr key={weather.time[index]}>
+                                    <td>{weather.time[index].split("T")[1]}</td>
+                                    <td>{weather.temperature_2m[index]}</td>
+                                    <td>{weather.precipitation[index]}</td>
+                                    <td>{weather.windspeed_10m[index]}</td>
+                                    <td>{getWindArrow(weather.winddirection_10m[index])}{" "}({weather.winddirection_10m[index]})</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -92,6 +103,7 @@ function Tables() {
 
 
 export default Tables;
+
 
 
 
