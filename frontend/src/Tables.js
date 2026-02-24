@@ -50,7 +50,7 @@ function Tables() {
     if (loading) return <p>Loading...</p>;
     if (!weather) return null;
 
-    const availableDates = [... new Set(weather.time.map(t => t.split("T")[0]))];
+    const availableDates = [...new Set(weather.time.map(t => t.split("T")[0]))];
 
     const filteredIndexes = weather.time
         .map((t, i) => t.startsWith(selectedDate) ? i : null)
@@ -103,6 +103,7 @@ function Tables() {
 
 
 export default Tables;
+
 
 
 
