@@ -54,7 +54,7 @@ function App() {
       <nav>
 
         {loggedIn && isAdmin && (<Link to="/adminPanel">Opcje Admina</Link>)}
-        <Link to="/tables">Baza Danych</Link>
+        <Link to="/tables">Pogoda</Link>
         <Link to="/calculator">Kalkulator</Link>
 
             <div className="nav-auth">
