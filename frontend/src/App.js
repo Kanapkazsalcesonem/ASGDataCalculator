@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Routes, Route, Link} from "react-router-dom";
-import Tables from "./Tables";
+import Weather from "./Weather";
 import AdminPanel from "./AdminPanel";
 import Calculator from "./Calculator";
 import './main.css';
@@ -54,7 +54,7 @@ function App() {
       <nav>
 
         {loggedIn && isAdmin && (<Link to="/adminPanel">Opcje Admina</Link>)}
-        <Link to="/tables">Pogoda</Link>
+        <Link to="/weather">Pogoda</Link>
         <Link to="/calculator">Kalkulator</Link>
 
             <div className="nav-auth">
@@ -74,7 +74,7 @@ function App() {
       </nav>
       <Routes>
         {loggedIn && isAdmin && (<Route path="/adminPanel" element={<AdminPanel/>}/>)}
-        <Route path="/tables" element={<Tables/>}/>
+        <Route path="/weather" element={<Weather/>}/>
         <Route path="/calculator" element={<Calculator/>}/>
 
         {!loggedIn && (
