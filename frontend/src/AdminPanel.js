@@ -59,10 +59,10 @@ function AdminPanel() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: userToEdit.id,
-                    name: userToEdit.name,
-                    user: userToEdit.user,
-                    created_at: userToEdit.created_at,
+                    id: calculatorToEdit.id,
+                    name: calculatorToEdit.name,
+                    user: calculatorToEdit.user,
+                    created_at: calculatorToEdit.created_at,
                 }),
             });
             if (!res.ok) throw new Error("Błąd edycji");
