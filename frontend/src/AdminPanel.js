@@ -10,6 +10,9 @@ function AdminPanel() {
     const [userToEdit, setUserToEdit] = useState(null);
     const [showUserEditWindow, setShowUserEditWindow] = useState(false);
 
+    const [calculatorToEdit, setCalculatorToEdit] = useState(null);
+    const [showCalculatorEditWindow, setShowCalculatorEditWindow] = useState(false);
+
     const editUser = async () => {
         const token = localStorage.getItem("access");
         if (!userToEdit) return;
@@ -22,6 +25,8 @@ function AdminPanel() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    username: userToEdit.username,
+                    email: userToEdit.email,
                     first_name: userToEdit.first_name,
                     is_staff: userToEdit.is_staff,
                     is_superuser: userToEdit.is_superuser,
@@ -36,6 +41,38 @@ function AdminPanel() {
 
             setUserToEdit(null);
             setShowUserEditWindow(false);
+        } catch (err) {
+            alert("Błąd edycji: " + err.message);
+        }
+        
+    }
+
+    const editCalculator = async () => {
+        const token = localStorage.getItem("access");
+        if (!calculatorToEdit) return;
+
+        try {
+            const res = await fetch(`${API_URL}/accounts/savedCalculators/${calculatorToEdit.id}/`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: userToEdit.id,
+                    name: userToEdit.name,
+                    user: userToEdit.user,
+                    created_at: userToEdit.created_at,
+                }),
+            });
+            if (!res.ok) throw new Error("Błąd edycji");
+
+            const newCalculator = await res.json();
+
+            setSavedCalculators (prev => prev.map(c => (c.id === newCalculator.id ? newCalculator : c)) );
+
+            setCalculatorToEdit(null);
+            setShowCalculatorserEditWindow(false);
         } catch (err) {
             alert("Błąd edycji: " + err.message);
         }
@@ -165,6 +202,7 @@ function AdminPanel() {
                             <th>Użytkownik</th>
                             <th>Nazwa</th>
                             <th>Data Utworzenia</th>
+                            <th>Edytuj</th>
                             <th>Usuń</th>
                         </tr>
                         </thead>
@@ -175,6 +213,7 @@ function AdminPanel() {
                                 <td>{r.user_email}</td>
                                 <td>{r.name}</td>
                                 <td>{r.created_at}</td>
+                                <td><button onClick={() => editCalculator(r.id)}>Edytuj</button></td>
                                 <td><button onClick={() => deleteCalculator(r.id)}>Usuń</button></td>
                             </tr>
                         ))}
@@ -189,6 +228,8 @@ function AdminPanel() {
                             <div className="modal-content">
                             <label className="modal-content-row modal-user-line">Nazwa: <input type="text" value={userToEdit.first_name || ""} 
                                     onChange={(e) => setUserToEdit({...userToEdit, first_name: e.target.value, })}/></label>
+                            <label className="modal-content-row modal-user-line">Email: <input type="text" value={userToEdit.email || ""} 
+                                    onChange={(e) => setUserToEdit({...userToEdit, email: e.target.value, username: e.target.value })}/></label>
                             <label className="modal-content-row modal-user-line">Staff: <input type="checkbox" checked={userToEdit.is_staff} 
                                     onChange={(e) => setUserToEdit({...userToEdit, is_staff: e.target.checked, })}/></label>
                             <label className="modal-content-row modal-user-line">Superuser: <input type="checkbox" checked={userToEdit.is_superuser} 
@@ -199,6 +240,27 @@ function AdminPanel() {
                             <div>
                                     <button onClick={editUser}>Zapisz</button>
                                     <button onClick={() => {setUserToEdit(null); setShowUserEditWindow(false);}}>X</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {showCalculatorEditWindow && calculatorToEdit && (
+                    <div className="modal-system">
+                        <div className="modal-window">
+                            <h3>Edycja zapisu kalkulatora</h3>
+                            <div className="modal-content">
+                            <label className="modal-content-row modal-user-line">Id: <input type="text" value={userToEdit.id || ""} 
+                            <label className="modal-content-row modal-user-line">Użytkownik: <input type="text" value={userToEdit.user || ""} 
+                                    onChange={(e) => setCalculatorToEdit({...calculatorToEdit, user: e.target.value, })}/></label>
+                            <label className="modal-content-row modal-user-line">Nazwa: <input type="text" value={userToEdit.name || ""} 
+                                    onChange={(e) => setCalculatorToEdit({...calculatorToEdit, name: e.target.value, })}/></label>
+                            <label className="modal-content-row modal-user-line">Data Utworzenia: <input type="text" value={userToEdit.created_at || ""} 
+                                    onChange={(e) => setCalculatorToEdit({...calculatorToEdit, created_at: e.target.value, })}/></label>
+                            </div>
+                            <div>
+                                    <button onClick={editCalculator}>Zapisz</button>
+                                    <button onClick={() => {setCalculatorToEdit(null); setShowCalculatorEditWindow(false);}}>X</button>
                             </div>
                         </div>
                     </div>
