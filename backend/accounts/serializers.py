@@ -94,15 +94,19 @@ class SavedCalculatorSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'data', 'created_at']
 
 class UsersSerializer(serializers.ModelSerializer):
+     test_field = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'username', 'email', 'is_staff', 'is_superuser', 'is_active']
+        fields = ['id', 'first_name', 'username', 'email', 'is_staff', 'is_superuser', 'is_active', 'test_field']
+        def get_test_field(self, obj):
+        return "TEST"
 
 class SavedCalculatorsSerializer(serializers.ModelSerializer):
     user_email = serializers.EmailField(source='user.email')
     class Meta:
         model = SavedCalculator
         fields = ['id', 'user_email', 'name', 'created_at']
+
 
 
 
