@@ -72,7 +72,7 @@ function AdminPanel() {
             setSavedCalculators (prev => prev.map(c => (c.id === newCalculator.id ? newCalculator : c)) );
 
             setCalculatorToEdit(null);
-            setShowCalculatorserEditWindow(false);
+            setShowCalculatorEditWindow(false);
         } catch (err) {
             alert("Błąd edycji: " + err.message);
         }
@@ -213,7 +213,7 @@ function AdminPanel() {
                                 <td>{r.user_email}</td>
                                 <td>{r.name}</td>
                                 <td>{r.created_at}</td>
-                                <td><button onClick={() => editCalculator(r.id)}>Edytuj</button></td>
+                                <td><button onClick={() => {setCalculatorToEdit({...r}); setShowCalculatorEditWindow(true);}}>Edytuj</button></td>
                                 <td><button onClick={() => deleteCalculator(r.id)}>Usuń</button></td>
                             </tr>
                         ))}
@@ -250,12 +250,12 @@ function AdminPanel() {
                         <div className="modal-window">
                             <h3>Edycja zapisu kalkulatora</h3>
                             <div className="modal-content">
-                            <label className="modal-content-row modal-user-line">Id: <input type="text" value={userToEdit.id || ""} 
-                            <label className="modal-content-row modal-user-line">Użytkownik: <input type="text" value={userToEdit.user || ""} 
+                            <label className="modal-content-row modal-user-line">Id: <input type="text" value={calculatorToEdit.id || ""}/></label>
+                            <label className="modal-content-row modal-user-line">Użytkownik: <input type="text" value={calculatorToEdit.user || ""} 
                                     onChange={(e) => setCalculatorToEdit({...calculatorToEdit, user: e.target.value, })}/></label>
-                            <label className="modal-content-row modal-user-line">Nazwa: <input type="text" value={userToEdit.name || ""} 
+                            <label className="modal-content-row modal-user-line">Nazwa: <input type="text" value={calculatorToEdit.name || ""} 
                                     onChange={(e) => setCalculatorToEdit({...calculatorToEdit, name: e.target.value, })}/></label>
-                            <label className="modal-content-row modal-user-line">Data Utworzenia: <input type="text" value={userToEdit.created_at || ""} 
+                            <label className="modal-content-row modal-user-line">Data Utworzenia: <input type="text" value={calculatorToEdit.created_at || ""} 
                                     onChange={(e) => setCalculatorToEdit({...calculatorToEdit, created_at: e.target.value, })}/></label>
                             </div>
                             <div>
