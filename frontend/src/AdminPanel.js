@@ -167,6 +167,7 @@ function AdminPanel() {
                         <thead>
                         <tr>
                             <th>Nazwa</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Staff</th>
                             <th>Superuser</th>
@@ -179,6 +180,7 @@ function AdminPanel() {
                         {users.map((r) => (
                             <tr key={r.id}>
                                 <td>{r.first_name}</td>
+                                <td>{r.username}</td>
                                 <td>{r.email}</td>
                                 <td>{r.is_staff ? "YES" : "NO"}</td>
                                 <td>{r.is_superuser ? "YES" : "NO"}</td>
