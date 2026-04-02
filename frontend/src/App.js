@@ -45,7 +45,7 @@ function App() {
     <div>
       <nav>
 
-        {loggedIn && isAdmin && (<Link to="/adminPanel">Opcje Admina</Link>)}
+        {loggedIn && isAdmin && (<Link to="/adminPanel">Panel Administratora</Link>)}
         {loggedIn && (<Link to="/report">Raport</Link>)}
         <Link to="/weather">Pogoda</Link>
         <Link to="/calculator">Kalkulator</Link>
