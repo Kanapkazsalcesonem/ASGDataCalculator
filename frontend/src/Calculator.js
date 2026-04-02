@@ -51,7 +51,7 @@ function CalculatorRow({index, data, onRemove, disableRemove, onDuplicate, moveU
             const v = Math.sqrt(vx * vx + vy * vy);
             if(v < 1e-6) break;
             const Fd = 0.5 * airDensity * Cd * A * v * v;
-            const Fm = 0.5 * airDensity * (0.65 * radius * rpm * hopUp / v) * A * v * v;
+            const Fm = 0.5 * airDensity * (0.65 * (Math.PI * 2 / 60) * radius * (rpm * hopUp) / v) * A * v * v;
             const ax = (-Fd * (vx / v) - Fm * (vy / v)) / (weight / 1000);
             const ay = (-Fd * (vy / v) + Fm * (vx / v)) / (weight / 1000) - g;
             vx += ax * dt;
