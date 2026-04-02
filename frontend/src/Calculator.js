@@ -8,7 +8,7 @@ const radius = 0.003;
 const A = Math.PI * radius * radius;
 const dt = 0.001;
 const airDensity = 1.2;
-const rpm = 5000 / 100;
+const rpm = 5000;
 
 const minScale = 1.4;
 const maxScale = 100;
@@ -51,7 +51,7 @@ function CalculatorRow({index, data, onRemove, disableRemove, onDuplicate, moveU
             const v = Math.sqrt(vx * vx + vy * vy);
             if(v < 1e-6) break;
             const Fd = 0.5 * airDensity * Cd * A * v * v;
-            const Fm = 0.5 * airDensity * (0.65 * (Math.PI * 2 / 60) * radius * (rpm * hopUp) / v) * A * v * v;
+            const Fm = 0.5 * airDensity * (1.4 * (Math.PI * 2 / 60) * radius * (rpm * hopUp) / v) * A * v * v;
             const ax = (-Fd * (vx / v) - Fm * (vy / v)) / (weight / 1000);
             const ay = (-Fd * (vy / v) + Fm * (vx / v)) / (weight / 1000) - g;
             vx += ax * dt;
@@ -235,7 +235,7 @@ function CalculatorRow({index, data, onRemove, disableRemove, onDuplicate, moveU
                 </div>
                 <div className="values-column solo">
                     <label>HopUp</label>
-                    <input placeholder="HopUp" type="range" step="0.01" value={hopUp}
+                    <input placeholder="HopUp" type="range" step="0.01" min="0" max="1" value={hopUp}
                            onChange={(e) => handleHopUpChange(Number(e.target.value))}/>
                 </div>
                 <div className="values-column solo">
