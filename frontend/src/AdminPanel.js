@@ -56,7 +56,7 @@ function AdminPanel() {
                 },
                 body: JSON.stringify({
                     data: calculatorToEdit.data,
-                    user: Number(calculatorToEdit.user_id),
+                    user: Number(calculatorToEdit.user),
                 }),
             });
             if (!res.ok) throw new Error("Błąd edycji");
@@ -192,7 +192,7 @@ function AdminPanel() {
                         {savedCalculators.map((r) => (
                             <tr key={r.id}>
                                 <td>{r.id}</td>
-                                <td>{r.user_id}</td>
+                                <td>{r.user}</td>
                                 <td>{r.user_email}</td>
                                 <td>{r.data?.name}</td>
                                 <td>{r.updated_at}</td>
@@ -259,8 +259,8 @@ function AdminPanel() {
                             <h3>Edycja zapisu kalkulatora</h3>
                             <div className="modal-content">
                             <label className="modal-content-row modal-user-line">Id: {calculatorToEdit.id || ""}</label>
-                            <label className="modal-content-row modal-user-line">ID Użytkownika: <input type="number" value={calculatorToEdit.user_id || ""} 
-                                    onChange={(e) => setCalculatorToEdit({...calculatorToEdit, user_id: e.target.value, })}/></label>
+                            <label className="modal-content-row modal-user-line">ID Użytkownika: <input type="number" value={calculatorToEdit.user || ""} 
+                                    onChange={(e) => setCalculatorToEdit({...calculatorToEdit, user: e.target.value, })}/></label>
                             <label className="modal-content-row modal-user-line">Nazwa: <input type="text" value={calculatorToEdit.data?.name || ""} 
                                     onChange={(e) => setCalculatorToEdit({...calculatorToEdit, data: {...calculatorToEdit.data, name: e.target.value},})}/></label>
                             </div>
