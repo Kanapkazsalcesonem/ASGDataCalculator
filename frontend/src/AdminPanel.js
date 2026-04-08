@@ -240,9 +240,9 @@ function AdminPanel() {
                                     onChange={(e) => setUserToEdit({...userToEdit, first_name: e.target.value,})}/></label>
                             <label className="modal-content-row modal-user-line">Email: <input type="text" value={userToEdit.email || ""} 
                                     onChange={(e) => setUserToEdit({...userToEdit, email: e.target.value,})}/></label>
-                            <label className="modal-content-row modal-user-line">Superuser: <input type="checkbox" checked={userToEdit.is_superuser} 
+                            <label className="modal-content-row modal-user-line">Stan uprawnień administracyjnych: <input type="checkbox" checked={userToEdit.is_superuser} 
                                     onChange={(e) => setUserToEdit({...userToEdit, is_superuser: e.target.checked, })}/></label>
-                            <label className="modal-content-row modal-user-line">Aktywne: <input type="checkbox" checked={userToEdit.is_active} 
+                            <label className="modal-content-row modal-user-line">Stan aktywnosci konta: <input type="checkbox" checked={userToEdit.is_active} 
                                     onChange={(e) => setUserToEdit({...userToEdit, is_active: e.target.checked, })}/></label>
                             </div>
                             <div>
