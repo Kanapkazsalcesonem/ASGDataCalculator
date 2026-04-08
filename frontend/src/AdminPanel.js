@@ -56,7 +56,7 @@ function AdminPanel() {
                 },
                 body: JSON.stringify({
                     data: calculatorToEdit.data,
-                    user: calculatorToEdit.user_id,
+                    user: Number(calculatorToEdit.user_id),
                 }),
             });
             if (!res.ok) throw new Error("Błąd edycji");
