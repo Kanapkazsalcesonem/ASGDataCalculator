@@ -96,8 +96,8 @@ class UserSavedCalculatorsSerializer(serializers.ModelSerializer):
         fields = ['id', 'data', 'updated_at']
 
 class AdminSavedCalculatorsSerializer(serializers.ModelSerializer):
-    user_email = serializers.EmailField(source='user.email')
-    user_id = serializers.IntegerField(source='user.id')
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user_email = serializers.EmailField(source='user.email', read_only=True)
     class Meta:
         model = SavedCalculator
-        fields = ['id', 'user_id', 'user_email', 'data', 'updated_at']
+        fields = ['id', 'user', 'user_email', 'data', 'updated_at']
